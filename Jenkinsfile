@@ -8,23 +8,20 @@ node {
     docker.build("docker_image:5")
   }
 
-  stage ('Run Application') {
-    try {
-      // Stop existing Container
-      sh 'docker rm docker_container -f'
-      // Start database container here
-      
-    } 
-	catch (error) {
-    } finally {
-      // Stop and remove database container here
-      
+pipeline {
+  environment {
+    registry = "gustavoapolinario/docker-test"
+    registryCredential = ‘dockerhub’
+  }
+  agent any
+  stages {
+    
+    stage('Building image') {
+      steps{
+        script {
+          docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
     }
   }
-  
-  stage ('Notifications') {
-    mail body: "Project Execution Completed with status : " + currentBuild.result ,
-                     subject: 'Project Execution Notification',
-                     to: 'abc@abc.com'
-     }
- }
+}
