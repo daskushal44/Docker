@@ -5,7 +5,7 @@ node {
   }
 
   stage('Create Docker Image') {
-    docker.build("docker_image:")
+    docker.build("docker_image:5")
   }
 
   stage ('Run Application') {
@@ -13,7 +13,7 @@ node {
       // Stop existing Container
       sh 'docker rm docker_container -f'
       // Start database container here
-      sh "docker build . -t anything"
+      
     } 
 	catch (error) {
     } finally {
