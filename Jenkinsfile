@@ -1,20 +1,10 @@
-node {
-  
-  stage('Checkout Source Code') {
-    checkout scm
-  }
-
-  stage('Create Docker Image') {
-    docker.build("docker_image:5")
-  }
-
 pipeline {
   environment {
-    registry = "gustavoapolinario/docker-test"
-    registryCredential = ‘dockerhub’
+    registry = "docker_hub_account/repository_name"
+    registryCredential = 'dockerhub'
   }
   agent any
-    
+  stages {
     stage('Building image') {
       steps{
         script {
@@ -23,4 +13,4 @@ pipeline {
       }
     }
   }
-
+}
